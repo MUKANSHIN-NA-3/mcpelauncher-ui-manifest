@@ -5,11 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
-
-    defaults:
-      run:
-        shell: msys2 {0}
+    runs-on: windows-2022
 
     steps:
     - name: Checkout repository
@@ -19,31 +15,25 @@ jobs:
         submodules: recursive
         fetch-depth: 0
 
-    - name: Setup MSYS2
-      uses: msys2/setup-msys2@v2
+    - name: Setup MSVC Compiler
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Setup Ninja and CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Setup Qt
+      uses: jurplel/install-qt-action@v3
       with:
-        msystem: MINGW64
-        update: true
-        install: >-
-          git
-          mingw-w64-x86_64-toolchain
-          mingw-w64-x86_64-cmake
-          mingw-w64-x86_64-ninja
-          mingw-w64-x86_64-qt5-base
-          mingw-w64-x86_64-qt5-declarative
-          mingw-w64-x86_64-qt5-webengine
-          mingw-w64-x86_64-zlib
-          mingw-w64-x86_64-libpng
-          mingw-w64-x86_64-openssl
-          mingw-w64-x86_64-libzip
-          mingw-w64-x86_64-protobuf
-          mingw-w64-x86_64-curl
+        version: '5.15.2'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_msvc2019_64'
 
     - name: Build project
       run: |
         mkdir build
         cd build
-        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DENABLE_MSA_QT=OFF -DENABLE_XAL=OFF
+        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
         ninja
 
     - name: Upload Artifact
