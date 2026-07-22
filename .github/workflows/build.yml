@@ -31,6 +31,7 @@ jobs:
           mingw-w64-x86_64-ninja
           mingw-w64-x86_64-qt5-base
           mingw-w64-x86_64-qt5-declarative
+          mingw-w64-x86_64-qt5-webengine
           mingw-w64-x86_64-zlib
           mingw-w64-x86_64-libpng
           mingw-w64-x86_64-openssl
@@ -42,11 +43,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G "Ninja" \
-          -DCMAKE_BUILD_TYPE=Release \
-          -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-          -DENABLE_MSA_QT=OFF \
-          -DENABLE_XAL=OFF
+        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DENABLE_MSA_QT=OFF -DENABLE_XAL=OFF
         ninja
 
     - name: Upload Artifact
