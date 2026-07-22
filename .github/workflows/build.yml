@@ -8,10 +8,12 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout repository with all submodules
       uses: actions/checkout@v4
       with:
+        repository: minecraft-linux/mcpelauncher-ui-manifest
         submodules: recursive
+        fetch-depth: 0
 
     - name: Setup Ninja and CMake
       uses: lukka/get-cmake@latest
