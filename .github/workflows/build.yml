@@ -20,6 +20,8 @@ jobs:
 
     - name: Setup Ninja and CMake
       uses: lukka/get-cmake@latest
+      with:
+        cmakeVersion: '3.28.3'
 
     - name: Setup Qt
       uses: jurplel/install-qt-action@v3
@@ -40,7 +42,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_DEFAULT_CMP0000=OLD -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
         ninja
 
     - name: Upload Artifact
