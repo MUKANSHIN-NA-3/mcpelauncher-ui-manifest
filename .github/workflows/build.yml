@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
     - name: Checkout repository with all submodules
@@ -14,6 +14,9 @@ jobs:
         repository: minecraft-linux/mcpelauncher-ui-manifest
         submodules: recursive
         fetch-depth: 0
+
+    - name: Setup MSVC Compiler
+      uses: ilammy/msvc-dev-cmd@v1
 
     - name: Setup Ninja and CMake
       uses: lukka/get-cmake@latest
@@ -24,6 +27,7 @@ jobs:
         version: '6.5.0'
         host: 'windows'
         target: 'desktop'
+        arch: 'win64_msvc2019_64'
 
     - name: Build project
       run: |
