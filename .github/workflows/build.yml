@@ -5,29 +5,34 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
 
     steps:
-    - name: Checkout repository with all submodules
+    - name: Checkout repository
       uses: actions/checkout@v4
       with:
         repository: minecraft-linux/mcpelauncher-ui-manifest
         submodules: recursive
         fetch-depth: 0
 
-    - name: Setup MSVC Compiler
-      uses: ilammy/msvc-dev-cmd@v1
-
-    - name: Setup Ninja and CMake
-      uses: lukka/get-cmake@latest
-
-    - name: Setup Qt
-      uses: jurplel/install-qt-action@v3
+    - name: Setup MSYS2
+      uses: msys2/setup-msys2@v2
       with:
-        version: '6.5.0'
-        host: 'windows'
-        target: 'desktop'
-        arch: 'win64_msvc2019_64'
+        msystem: MINGW64
+        update: true
+        install: >-
+          git
+          mingw-w64-x86_64-toolchain
+          mingw-w64-x86_64-cmake
+          mingw-w64-x86_64-ninja
+          mingw-w64-x86_64-qt6-base
+          mingw-w64-x86_64-zlib
+          mingw-w64-x86_64-libpng
+          mingw-w64-x86_64-openssl
 
     - name: Build project
       run: |
