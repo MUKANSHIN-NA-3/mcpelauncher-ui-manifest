@@ -42,7 +42,11 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+        cmake .. -G "Ninja" \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+          -DENABLE_MSA_QT=OFF \
+          -DENABLE_XAL=OFF
         ninja
 
     - name: Upload Artifact
